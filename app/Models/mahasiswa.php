@@ -1,25 +1,33 @@
 <?php
 class Mahasiswa
 {
-    public function getAll()
+    private $pdo;
+
+    public function __construct($pdo)
     {
-        return [
-            ['nim' => '23001', 'nama' => 'Budi Santoso', 'prodi' => 'Teknik Informatika'],
-            ['nim' => '23002', 'nama' => 'Siti Aminah', 'prodi' => 'Sistem Informasi'],
-            ['nim' => '23003', 'nama' => 'Agus Prasetyo', 'prodi' => 'Teknik Komputer'],
-            ['nim' => '23004', 'nama' => 'Dewi Lestari', 'prodi' => 'Teknik Informatika'],
-            ['nim' => '23005', 'nama' => 'Rizky Ramadhan', 'prodi' => 'Sistem Informasi'],
-            ['nim' => '23006', 'nama' => 'Putri Wulandari', 'prodi' => 'Teknik Komputer'],
-        ];
+        $this->pdo = $pdo;
     }
 
-    public function getByNim($nim)
+    public function getAll()
     {
-        foreach ($this->getAll() as $mhs) {
-            if ($mhs['nim'] == $nim) {
-                return $mhs;
-            }
-        }
-        return null;
+        $sql = "SELECT mahasiswa.*, dosen.nama AS nama_dosen
+                FROM mahasiswa
+                LEFT JOIN dosen
+                ON mahasiswa.dosen_id = dosen.id
+                ORDER BY mahasiswa.nama ASC";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getById($id)
+    {
+        $sql = "SELECT mahasiswa.*, dosen.nama AS nama_dosen
+                FROM mahasiswa
+                LEFT JOIN dosen
+                ON mahasiswa.dosen_id = dosen.id
+                WHERE mahasiswa.id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

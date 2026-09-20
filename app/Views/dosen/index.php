@@ -16,7 +16,7 @@
                 <img src="/si-akademik/public/assets/logo-polije.png" alt="Logo POLIJE" style="width:56px;height:auto;">
                 <div>
                     <h1 class="h3 text-info-emphasis mb-0">Politeknik Negeri Jember</h1>
-                    <p class="text-secondary mb-0">Daftar Dosen</p>
+                    <p class="text-secondary mb-0">Data Dosen</p>
                 </div>
             </div>
             <div class="d-flex gap-2">
@@ -25,26 +25,32 @@
             </div>
         </div>
 
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn btn-info text-white" href="/si-akademik/public/dosen/create">+ Tambah Dosen</a>
+        </div>
+
         <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-info">
                             <tr>
-                                <th>NIP</th>
+                                <th>NIDN</th>
                                 <th>Nama</th>
-                                <th>Jabatan</th>
+                                <th>Bidang Keahlian</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach (($dosen ?? []) as $dsn): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($dsn['nip']) ?></td>
+                                    <td><?= htmlspecialchars($dsn['nidn']) ?></td>
                                     <td><?= htmlspecialchars($dsn['nama']) ?></td>
-                                    <td><?= htmlspecialchars($dsn['jabatan']) ?></td>
-                                    <td>
-                                        <a class="btn btn-sm btn-outline-info" href="/si-akademik/public/dosen/detail?nip=<?= htmlspecialchars($dsn['nip']) ?>">Detail</a>
+                                    <td><?= htmlspecialchars($dsn['bidang_keahlian']) ?></td>
+                                    <td class="d-flex gap-2">
+                                        <a class="btn btn-sm btn-outline-info" href="/si-akademik/public/dosen/detail?id=<?= htmlspecialchars($dsn['id']) ?>">Detail</a>
+                                        <a class="btn btn-sm btn-outline-warning" href="/si-akademik/public/dosen/edit?id=<?= htmlspecialchars($dsn['id']) ?>">Edit</a>
+                                        <a class="btn btn-sm btn-outline-danger" href="/si-akademik/public/dosen/delete?id=<?= htmlspecialchars($dsn['id']) ?>" onclick="return confirm('Hapus data ini?')">Hapus</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

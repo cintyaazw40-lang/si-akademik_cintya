@@ -1,9 +1,11 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Controllers/MahasiswaControllers.php';
 require_once __DIR__ . '/../app/Controllers/DosenController.php';
 require_once __DIR__ . '/../app/Controllers/AuthController.php';
 require_once __DIR__ . '/../app/Middleware/AuthMiddleware.php';
+
 
 // Ambil folder dasar aplikasi, misal: /si-akademik/public
 $basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
@@ -83,6 +85,46 @@ switch ($uri) {
 
         $controller = new DosenController();
         $controller->detail();
+        break;
+
+    case 'dosen/create':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new DosenController();
+        $controller->create();
+        break;
+
+    case 'dosen/store':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new DosenController();
+        $controller->store();
+        break;
+
+    case 'dosen/edit':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new DosenController();
+        $controller->edit();
+        break;
+
+    case 'dosen/update':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new DosenController();
+        $controller->update();
+        break;
+
+    case 'dosen/delete':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new DosenController();
+        $controller->delete();
         break;
 
     default:

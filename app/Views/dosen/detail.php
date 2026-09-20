@@ -21,9 +21,9 @@
 
         <div class="card border-0 shadow-sm" style="max-width: 480px;">
             <div class="card-body">
-                <p class="mb-2"><strong>NIP:</strong> <?= htmlspecialchars($dosen['nip']) ?></p>
+                <p class="mb-2"><strong>NIDN:</strong> <?= htmlspecialchars($dosen['nidn']) ?></p>
                 <p class="mb-2"><strong>Nama:</strong> <?= htmlspecialchars($dosen['nama']) ?></p>
-                <p class="mb-3"><strong>Jabatan:</strong> <?= htmlspecialchars($dosen['jabatan']) ?></p>
+                <p class="mb-3"><strong>Bidang Keahlian:</strong> <?= htmlspecialchars($dosen['bidang_keahlian']) ?></p>
                 <a class="btn btn-outline-secondary" href="/si-akademik/public/dosen">Kembali</a>
             </div>
         </div>

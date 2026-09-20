@@ -6,16 +6,18 @@ class mahasiswacontroller
 {
     public function index()
     {
-        $model = new Mahasiswa();
+        global $pdo;
+        $model = new Mahasiswa($pdo);
         $mahasiswa = $model->getAll();
         require_once __DIR__ . '/../views/mahasiswa/index.php';
     }
 
     public function detail()
     {
-        $model = new Mahasiswa();
-        $nim = $_GET['nim'];
-        $mahasiswa = $model->getByNim($nim);
+        global $pdo;
+        $model = new Mahasiswa($pdo);
+        $id = $_GET['id'];
+        $mahasiswa = $model->getById($id);
         require_once __DIR__ . '/../views/mahasiswa/detail.php';
     }
 

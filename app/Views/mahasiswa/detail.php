@@ -23,7 +23,8 @@
             <div class="card-body">
                 <p class="mb-2"><strong>NIM:</strong> <?= htmlspecialchars($mahasiswa['nim']) ?></p>
                 <p class="mb-2"><strong>Nama:</strong> <?= htmlspecialchars($mahasiswa['nama']) ?></p>
-                <p class="mb-3"><strong>Prodi:</strong> <?= htmlspecialchars($mahasiswa['prodi']) ?></p>
+                <p class="mb-2"><strong>Prodi:</strong> <?= htmlspecialchars($mahasiswa['prodi']) ?></p>
+                <p class="mb-3"><strong>Dosen Pembimbing:</strong> <?= htmlspecialchars($mahasiswa['nama_dosen'] ?? '-') ?></p>
                 <a class="btn btn-outline-secondary" href="/si-akademik/public/mahasiswa">Kembali</a>
             </div>
         </div>

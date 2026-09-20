@@ -20,7 +20,6 @@
                 </div>
             </div>
             <div class="d-flex gap-2">
-                <a class="btn btn-outline-info" href="/si-akademik/public/mahasiswa/detail?nim=23002">Halaman Baru</a>
                 <a class="btn btn-info text-white" href="/si-akademik/public/dosen">Daftar Dosen</a>
                 <a class="btn btn-outline-secondary" href="/si-akademik/public/dashboard">Dashboard</a>
             </div>
@@ -35,6 +34,7 @@
                                 <th>NIM</th>
                                 <th>Nama</th>
                                 <th>Program Studi</th>
+                                <th>Dosen Pembimbing</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -44,8 +44,9 @@
                                     <td><?= htmlspecialchars($mhs['nim']) ?></td>
                                     <td><?= htmlspecialchars($mhs['nama']) ?></td>
                                     <td><?= htmlspecialchars($mhs['prodi']) ?></td>
+                                    <td><?= htmlspecialchars($mhs['nama_dosen'] ?? '-') ?></td>
                                     <td>
-                                        <a class="btn btn-sm btn-outline-info" href="/si-akademik/public/mahasiswa/detail?nim=<?= htmlspecialchars($mhs['nim']) ?>">Detail</a>
+                                        <a class="btn btn-sm btn-outline-info" href="/si-akademik/public/mahasiswa/detail?id=<?= htmlspecialchars($mhs['id']) ?>">Detail</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
