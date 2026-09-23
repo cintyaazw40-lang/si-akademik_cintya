@@ -1,5 +1,5 @@
 <?php
-/** @var array $mahasiswa */
+/** @var Mahasiswa[] $mahasiswa */
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -25,6 +25,10 @@
             </div>
         </div>
 
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn btn-info text-white" href="/si-akademik/public/mahasiswa/create">+ Tambah Mahasiswa</a>
+        </div>
+
         <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="table-responsive">
@@ -41,12 +45,14 @@
                         <tbody>
                             <?php foreach ($mahasiswa as $mhs): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($mhs['nim']) ?></td>
-                                    <td><?= htmlspecialchars($mhs['nama']) ?></td>
-                                    <td><?= htmlspecialchars($mhs['prodi']) ?></td>
-                                    <td><?= htmlspecialchars($mhs['nama_dosen'] ?? '-') ?></td>
-                                    <td>
-                                        <a class="btn btn-sm btn-outline-info" href="/si-akademik/public/mahasiswa/detail?id=<?= htmlspecialchars($mhs['id']) ?>">Detail</a>
+                                    <td><?= htmlspecialchars($mhs->getNim()) ?></td>
+                                    <td><?= htmlspecialchars($mhs->getNama()) ?></td>
+                                    <td><?= htmlspecialchars($mhs->getProdi()) ?></td>
+                                    <td><?= htmlspecialchars($mhs->getNamaDosen() ?? '-') ?></td>
+                                    <td class="d-flex gap-2">
+                                        <a class="btn btn-sm btn-outline-info" href="/si-akademik/public/mahasiswa/detail?id=<?= htmlspecialchars($mhs->getId()) ?>">Detail</a>
+                                        <a class="btn btn-sm btn-outline-warning" href="/si-akademik/public/mahasiswa/edit?id=<?= htmlspecialchars($mhs->getId()) ?>">Edit</a>
+                                        <a class="btn btn-sm btn-outline-danger" href="/si-akademik/public/mahasiswa/delete?id=<?= htmlspecialchars($mhs->getId()) ?>" onclick="return confirm('Hapus data ini?')">Hapus</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

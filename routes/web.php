@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../app/Core/Database.php';
+require_once __DIR__ . '/../app/Entities/Mahasiswa.php';
+require_once __DIR__ . '/../app/Repositories/MahasiswaRepository.php';
 require_once __DIR__ . '/../app/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Controllers/MahasiswaControllers.php';
 require_once __DIR__ . '/../app/Controllers/DosenController.php';
@@ -7,10 +10,13 @@ require_once __DIR__ . '/../app/Controllers/AuthController.php';
 require_once __DIR__ . '/../app/Middleware/AuthMiddleware.php';
 
 
+$database = new Database();
+$mahasiswaRepo = new MahasiswaRepository($database);
+
 // Ambil folder dasar aplikasi, misal: /si-akademik/public
 $basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
 
-// Ambil path URL (tanpa query string), lalu buang bagian basePath
+
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = trim(substr($requestUri, strlen($basePath)), '/');
 
@@ -20,7 +26,6 @@ switch ($uri) {
         $controller->index();
         break;
 
-    // ===== AUTH (tidak perlu middleware) =====
     case 'login':
         $controller = new AuthController();
         $controller->loginForm();
@@ -45,32 +50,64 @@ switch ($uri) {
         $controller->dashboard();
         break;
 
-    // ===== MAHASISWA (dilindungi middleware) =====
+
     case 'mahasiswa':
         $middleware = new AuthMiddleware();
         $middleware->handle();
 
-        $controller = new MahasiswaController();
+        $controller = new MahasiswaController($mahasiswaRepo);
         $controller->index();
-        break;
-
-    case 'mahasiswa/create':
-        $middleware = new AuthMiddleware();
-        $middleware->handle();
-
-        $controller = new MahasiswaController();
-        $controller->create();
         break;
 
     case 'mahasiswa/detail':
         $middleware = new AuthMiddleware();
         $middleware->handle();
 
-        $controller = new MahasiswaController();
+        $controller = new MahasiswaController($mahasiswaRepo);
         $controller->detail();
         break;
 
-    // ===== DOSEN (dilindungi middleware) =====
+    case 'mahasiswa/create':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new MahasiswaController($mahasiswaRepo);
+        $controller->create();
+        break;
+
+    case 'mahasiswa/store':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new MahasiswaController($mahasiswaRepo);
+        $controller->store();
+        break;
+
+    case 'mahasiswa/edit':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new MahasiswaController($mahasiswaRepo);
+        $controller->edit();
+        break;
+
+    case 'mahasiswa/update':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new MahasiswaController($mahasiswaRepo);
+        $controller->update();
+        break;
+
+    case 'mahasiswa/delete':
+        $middleware = new AuthMiddleware();
+        $middleware->handle();
+
+        $controller = new MahasiswaController($mahasiswaRepo);
+        $controller->delete();
+        break;
+
+    // ===== DOSEN (dilindungi middleware, masih pakai cara lama) =====
     case 'dosen':
         $middleware = new AuthMiddleware();
         $middleware->handle();

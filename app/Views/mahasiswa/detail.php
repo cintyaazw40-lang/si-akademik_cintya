@@ -1,5 +1,5 @@
 <?php
-/** @var array $mahasiswa */
+/** @var Mahasiswa $mahasiswa */
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -21,10 +21,10 @@
 
         <div class="card border-0 shadow-sm" style="max-width: 480px;">
             <div class="card-body">
-                <p class="mb-2"><strong>NIM:</strong> <?= htmlspecialchars($mahasiswa['nim']) ?></p>
-                <p class="mb-2"><strong>Nama:</strong> <?= htmlspecialchars($mahasiswa['nama']) ?></p>
-                <p class="mb-2"><strong>Prodi:</strong> <?= htmlspecialchars($mahasiswa['prodi']) ?></p>
-                <p class="mb-3"><strong>Dosen Pembimbing:</strong> <?= htmlspecialchars($mahasiswa['nama_dosen'] ?? '-') ?></p>
+                <p class="mb-2"><strong>NIM:</strong> <?= htmlspecialchars($mahasiswa->getNim()) ?></p>
+                <p class="mb-2"><strong>Nama:</strong> <?= htmlspecialchars($mahasiswa->getNama()) ?></p>
+                <p class="mb-2"><strong>Prodi:</strong> <?= htmlspecialchars($mahasiswa->getProdi()) ?></p>
+                <p class="mb-3"><strong>Dosen Pembimbing:</strong> <?= htmlspecialchars($mahasiswa->getNamaDosen() ?? '-') ?></p>
                 <a class="btn btn-outline-secondary" href="/si-akademik/public/mahasiswa">Kembali</a>
             </div>
         </div>

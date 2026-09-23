@@ -1,28 +1,97 @@
 <?php
 
-require_once __DIR__ . '/../models/mahasiswa.php';
+require_once __DIR__ . '/../Repositories/MahasiswaRepository.php';
+require_once __DIR__ . '/../models/dosen.php';
 
 class mahasiswacontroller
 {
+    private MahasiswaRepository $repo;
+
+    public function __construct(MahasiswaRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+
     public function index()
     {
-        global $pdo;
-        $model = new Mahasiswa($pdo);
-        $mahasiswa = $model->getAll();
+        $mahasiswa = $this->repo->all();
         require_once __DIR__ . '/../views/mahasiswa/index.php';
     }
 
     public function detail()
     {
-        global $pdo;
-        $model = new Mahasiswa($pdo);
-        $id = $_GET['id'];
-        $mahasiswa = $model->getById($id);
+        $id = (int) $_GET['id'];
+        $mahasiswa = $this->repo->find($id);
         require_once __DIR__ . '/../views/mahasiswa/detail.php';
     }
 
     public function create()
     {
-        echo "Ini halaman form tambah mahasiswa (belum ada form, baru placeholder).";
+        global $pdo;
+        $daftarDosen = (new Dosen($pdo))->getAll();
+
+        $errors = [];
+        require_once __DIR__ . '/../views/mahasiswa/create.php';
+    }
+
+    public function store()
+    {
+        try {
+            $mahasiswa = new Mahasiswa(
+                nim: $_POST['nim'],
+                nama: $_POST['nama'],
+                prodi: $_POST['prodi'],
+                dosenId: !empty($_POST['dosen_id']) ? (int) $_POST['dosen_id'] : null
+            );
+            $this->repo->create($mahasiswa);
+            header('Location: /si-akademik/public/mahasiswa');
+            exit;
+        } catch (InvalidArgumentException $e) {
+            global $pdo;
+            $daftarDosen = (new Dosen($pdo))->getAll();
+            $errors = [$e->getMessage()];
+            require_once __DIR__ . '/../views/mahasiswa/create.php';
+        }
+    }
+
+    public function edit()
+    {
+        global $pdo;
+        $daftarDosen = (new Dosen($pdo))->getAll();
+
+        $id = (int) $_GET['id'];
+        $mahasiswa = $this->repo->find($id);
+        $errors = [];
+        require_once __DIR__ . '/../views/mahasiswa/edit.php';
+    }
+
+    public function update()
+    {
+        $id = (int) $_GET['id'];
+        try {
+            $mahasiswa = new Mahasiswa(
+                nim: $_POST['nim'],
+                nama: $_POST['nama'],
+                prodi: $_POST['prodi'],
+                dosenId: !empty($_POST['dosen_id']) ? (int) $_POST['dosen_id'] : null
+            );
+            $this->repo->update($id, $mahasiswa);
+            header('Location: /si-akademik/public/mahasiswa');
+            exit;
+        } catch (InvalidArgumentException $e) {
+            global $pdo;
+            $daftarDosen = (new Dosen($pdo))->getAll();
+            $mahasiswa = $this->repo->find($id);
+            $errors = [$e->getMessage()];
+            require_once __DIR__ . '/../views/mahasiswa/edit.php';
+        }
+    }
+
+    public function delete()
+    {
+        $id = (int) $_GET['id'];
+        $this->repo->delete($id);
+        header('Location: /si-akademik/public/mahasiswa');
+        exit;
     }
 }
